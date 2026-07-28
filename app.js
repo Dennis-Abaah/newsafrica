@@ -91,6 +91,9 @@ document.addEventListener('DOMContentLoaded', function () {
   const toggle = document.getElementById('navToggle');
   const navInner = document.getElementById('navBarInner');
   if (toggle && navInner) {
+    // Relocate the toggle button outside of navBarInner so it doesn't get hidden when collapsed
+    navInner.parentElement.insertBefore(toggle, navInner);
+    
     toggle.addEventListener('click', function () {
       navInner.classList.toggle('open');
     });

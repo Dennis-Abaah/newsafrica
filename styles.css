@@ -245,11 +245,19 @@ button, input, select, textarea {
 }
 
 @media (max-width: 768px) {
+  .nav-bar {
+    min-height: 48px;
+  }
   .nav-bar a:not(.active) {
     display: none;
   }
   .nav-toggle {
     display: block;
+    position: absolute;
+    right: 15px;
+    top: 4px;
+    z-index: 1001;
+    margin-left: 0;
   }
   .nav-bar-inner.open {
     flex-direction: column;
@@ -954,10 +962,6 @@ button, input, select, textarea {
   .header-actions a {
     font-size: 1.1rem;
   }
-  .nav-toggle {
-    display: block;
-  }
-
   .nav-bar-inner {
     flex-direction: column;
     align-items: flex-start;
