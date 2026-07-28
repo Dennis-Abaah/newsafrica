@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="News Africa Admin Dashboard — manage and publish articles.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Admin Dashboard — News Africa</title>
+  <link rel="icon" type="image/jpeg" href="logo.jpg">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="admin-dashboard.css">
+</head>
+<body class="admin-body">
+
+  <!-- LOGIN SCREEN (shown when not authenticated) -->
+  <div class="admin-login-screen" id="loginScreen">
+    <div class="admin-login-card">
+      <div class="login-logo">NEWS <span>AFRICA</span></div>
+      <h1>Admin Dashboard</h1>
+      <p class="login-subtitle">Sign in to manage your content</p>
+      <form id="loginForm" autocomplete="off">
+        <div class="login-field">
+          <label for="loginEmail">Email</label>
+          <input type="email" id="loginEmail" required placeholder="admin@example.com">
+        </div>
+        <div class="login-field">
+          <label for="loginPassword">Password</label>
+          <input type="password" id="loginPassword" required placeholder="Your password">
+        </div>
+        <button type="submit" class="login-btn" id="loginBtn">Sign In</button>
+        <div class="login-status" id="loginStatus"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- DASHBOARD (shown after authentication) -->
+  <div class="admin-dashboard" id="dashboardScreen" style="display:none;">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-brand">
+        <a href="index.html" class="sidebar-logo">N<span>A</span></a>
+        <span class="sidebar-title">News Africa</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="sidebar-link active" data-section="overview" id="navOverview">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span>Overview</span>
+        </a>
+        <a href="#" class="sidebar-link" data-section="create" id="navCreate">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Create Article</span>
+        </a>
+        <a href="#" class="sidebar-link" data-section="manage" id="navManage">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          <span>Manage Articles</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="index.html" class="sidebar-link sidebar-link-external">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          <span>View Site</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+
+      <!-- TOP BAR -->
+      <header class="admin-topbar">
+        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        </button>
+        <div class="topbar-spacer"></div>
+        <div class="topbar-user">
+          <div class="topbar-avatar" id="topbarAvatar">A</div>
+          <span class="topbar-email" id="topbarEmail"></span>
+          <button class="topbar-logout" id="logoutBtn" title="Sign Out">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT AREA -->
+      <div class="admin-content">
+
+        <!-- ========== OVERVIEW SECTION ========== -->
+        <section class="dash-section active" id="sectionOverview">
+          <div class="section-header">
+            <h1>Dashboard Overview</h1>
+            <p class="section-desc">Welcome back. Here's what's happening with your content.</p>
+          </div>
+
+          <div class="stats-grid" id="statsGrid">
+            <div class="stat-card stat-total">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </div>
+              <div class="stat-body">
+                <div class="stat-number" id="statTotal">—</div>
+                <div class="stat-label">Total Articles</div>
+              </div>
+            </div>
+            <div class="stat-card stat-breaking">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <div class="stat-body">
+                <div class="stat-number" id="statBreaking">—</div>
+                <div class="stat-label">Breaking News</div>
+              </div>
+            </div>
+            <div class="stat-card stat-videos">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              </div>
+              <div class="stat-body">
+                <div class="stat-number" id="statVideos">—</div>
+                <div class="stat-label">With Video</div>
+              </div>
+            </div>
+            <div class="stat-card stat-recent">
+              <div class="stat-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              </div>
+              <div class="stat-body">
+                <div class="stat-number" id="statToday">—</div>
+                <div class="stat-label">Published Today</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="overview-grid">
+            <div class="overview-card">
+              <h3>Articles by Category</h3>
+              <div class="category-bars" id="categoryBars">
+                <div class="cat-bar-row"><span class="cat-label">Loading…</span></div>
+              </div>
+            </div>
+            <div class="overview-card">
+              <h3>Recent Articles</h3>
+              <div class="recent-list" id="recentList">
+                <div class="recent-empty">Loading…</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ========== CREATE ARTICLE SECTION ========== -->
+        <section class="dash-section" id="sectionCreate">
+          <div class="section-header">
+            <h1 id="createSectionTitle">Create New Article</h1>
+            <p class="section-desc" id="createSectionDesc">Fill in the details below to publish a new article.</p>
+          </div>
+
+          <div class="create-form-card">
+            <form id="uploadForm">
+              <div class="form-row">
+                <div class="form-col">
+                  <label for="articleTitle">Title <span class="required">*</span></label>
+                  <input type="text" id="articleTitle" required placeholder="Enter article headline">
+                </div>
+              </div>
+
+              <div class="form-row form-row-2">
+                <div class="form-col">
+                  <label for="articleCategory">Category <span class="required">*</span></label>
+                  <select id="articleCategory" required>
+                    <option value="">— Select category —</option>
+                    <option value="news">News</option>
+                    <option value="politics">Politics</option>
+                    <option value="business">Business</option>
+                    <option value="sports">Sports</option>
+                    <option value="entertainment">Entertainment</option>
+                    <option value="health">Health</option>
+                    <option value="culture">Culture</option>
+                    <option value="society">Society</option>
+                  </select>
+                </div>
+                <div class="form-col">
+                  <label for="articleVideo">YouTube URL <span class="optional">(optional)</span></label>
+                  <input type="text" id="articleVideo" placeholder="https://www.youtube.com/watch?v=...">
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-col">
+                  <label for="articleImage">Featured Image</label>
+                  <div class="file-upload-area" id="fileUploadArea">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    <span>Click to upload or drag & drop</span>
+                    <span class="file-hint">PNG, JPG, GIF up to 10MB</span>
+                    <input type="file" id="articleImage" accept="image/*">
+                  </div>
+                  <div class="file-preview" id="filePreview" style="display:none;">
+                    <img id="filePreviewImg" alt="Preview">
+                    <button type="button" class="file-remove" id="fileRemoveBtn">&times;</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-col">
+                  <label for="articleExcerpt">Excerpt</label>
+                  <textarea id="articleExcerpt" rows="2" placeholder="A brief summary (1–2 sentences). Leave blank to auto-generate."></textarea>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-col">
+                  <label for="articleContent">Content <span class="required">*</span></label>
+                  <textarea id="articleContent" rows="14" required placeholder="Full article body. Use double line breaks to separate paragraphs."></textarea>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-col">
+                  <label class="checkbox-label">
+                    <input type="checkbox" id="articleBreaking">
+                    <span class="checkmark"></span>
+                    Mark as Breaking News
+                  </label>
+                </div>
+              </div>
+
+              <!-- Hidden field for edit mode -->
+              <input type="hidden" id="editArticleId" value="">
+
+              <div class="form-actions">
+                <button type="button" class="btn-cancel" id="cancelEditBtn" style="display:none;">Cancel Edit</button>
+                <button type="submit" class="btn-publish" id="submitArticle">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                  <span id="submitBtnText">Publish Article</span>
+                </button>
+              </div>
+              <div class="form-status" id="uploadStatus"></div>
+            </form>
+          </div>
+        </section>
+
+        <!-- ========== MANAGE ARTICLES SECTION ========== -->
+        <section class="dash-section" id="sectionManage">
+          <div class="section-header">
+            <h1>Manage Articles</h1>
+            <p class="section-desc">View, edit, and delete your published articles.</p>
+          </div>
+
+          <div class="manage-toolbar">
+            <div class="search-box">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="searchInput" placeholder="Search articles…">
+            </div>
+            <select class="filter-select" id="filterCategory">
+              <option value="">All Categories</option>
+              <option value="news">News</option>
+              <option value="politics">Politics</option>
+              <option value="business">Business</option>
+              <option value="sports">Sports</option>
+              <option value="entertainment">Entertainment</option>
+              <option value="health">Health</option>
+              <option value="culture">Culture</option>
+              <option value="society">Society</option>
+            </select>
+            <button class="btn-new-article" id="btnNewFromManage">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              New Article
+            </button>
+          </div>
+
+          <div class="articles-table-wrap">
+            <table class="articles-table" id="articlesTable">
+              <thead>
+                <tr>
+                  <th class="th-image">Image</th>
+                  <th class="th-title">Title</th>
+                  <th class="th-category">Category</th>
+                  <th class="th-date">Date</th>
+                  <th class="th-status">Status</th>
+                  <th class="th-actions">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="articlesTableBody">
+                <tr><td colspan="6" class="table-loading">Loading articles…</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="table-empty" id="tableEmpty" style="display:none;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <p>No articles found</p>
+            <span>Try adjusting your search or filter, or create a new article.</span>
+          </div>
+        </section>
+
+      </div><!-- /.admin-content -->
+    </div><!-- /.admin-main -->
+  </div><!-- /.admin-dashboard -->
+
+  <!-- DELETE CONFIRMATION MODAL -->
+  <div class="modal-overlay" id="deleteModal" style="display:none;">
+    <div class="modal-card modal-delete">
+      <div class="modal-icon-danger">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>
+      </div>
+      <h3>Delete Article</h3>
+      <p>Are you sure you want to delete "<strong id="deleteArticleTitle"></strong>"? This action cannot be undone.</p>
+      <div class="modal-actions">
+        <button class="btn-modal-cancel" id="deleteModalCancel">Cancel</button>
+        <button class="btn-modal-danger" id="deleteModalConfirm">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+
+</body>
+</html>
