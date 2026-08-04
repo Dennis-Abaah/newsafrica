@@ -62,6 +62,15 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function formatCategoryName(category) {
+  if (!category) return '';
+  if (category === 'culture-society') return 'Culture & Society';
+  if (category === 'inside-africa') return 'Inside Africa';
+  return category.split(/[-_ ]+/).map(function(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(' ');
+}
+
 function getParam(name) {
   const params = new URLSearchParams(window.location.search);
   return params.get(name);
@@ -114,8 +123,9 @@ async function loadHomepage() {
   await loadCategorySection('sports', 'homeSectionSports');
   await loadCategorySection('entertainment', 'homeSectionEntertainment');
   await loadCategorySection('health', 'homeSectionHealth');
-  await loadCategorySection('culture', 'homeSectionCulture');
-  await loadCategorySection('society', 'homeSectionSociety');
+  await loadCategorySection('culture-society', 'homeSectionCultureSociety');
+  await loadCategorySection('crime', 'homeSectionCrime');
+  await loadCategorySection('inside-africa', 'homeSectionInsideAfrica');
 }
 
 async function loadBreakingBar() {
@@ -171,9 +181,9 @@ async function loadTopStories() {
     html += '    <img src="' + imgSrc(lead.image_url) + '" alt="' + escapeAttr(lead.title) + '">';
     html += '  </a>';
   }
-  html += '  <a href="article.html?id=' + lead.id + '" class="story-title">' + escapeHtml(lead.title) + '</a>';
+  html += '  <div class="story-title-wrap"><a href="article.html?id=' + lead.id + '" class="story-title">' + escapeHtml(lead.title) + '</a></div>';
   html += '  <p class="story-excerpt">' + escapeHtml(lead.excerpt || '') + '</p>';
-  html += '  <div class="story-meta">' + escapeHtml(capitalize(lead.category || '')) + ' &middot; ' + timeAgo(lead.created_at) + '</div>';
+  html += '  <div class="story-meta">' + escapeHtml(formatCategoryName(lead.category || '')) + ' &middot; ' + timeAgo(lead.created_at) + '</div>';
   html += '</div>';
 
   // Sidebar
@@ -183,7 +193,7 @@ async function loadTopStories() {
     html += '  <a href="article.html?id=' + a.id + '"><img src="' + imgSrc(a.image_url) + '" alt="' + escapeAttr(a.title) + '"></a>';
     html += '  <div>';
     html += '    <a href="article.html?id=' + a.id + '" class="story-title">' + escapeHtml(a.title) + '</a>';
-    html += '    <div class="story-meta">' + escapeHtml(capitalize(a.category || '')) + ' &middot; ' + timeAgo(a.created_at) + '</div>';
+    html += '    <div class="story-meta">' + escapeHtml(formatCategoryName(a.category || '')) + ' &middot; ' + timeAgo(a.created_at) + '</div>';
     html += '  </div>';
     html += '</div>';
   });
@@ -209,7 +219,7 @@ async function loadCategorySection(category, containerId) {
     return;
   }
 
-  let html = '<h2 class="section-heading"><a href="' + category + '.html">' + capitalize(category) + '</a></h2>';
+  let html = '<h2 class="section-heading"><a href="' + category + '.html">' + formatCategoryName(category) + '</a></h2>';
   html += '<div class="category-grid">';
   data.forEach(function (a) {
     html += '<div class="card">';
@@ -305,7 +315,7 @@ async function loadArticle() {
 
   // Render article
   let html = '';
-  html += '<div class="article-category">' + escapeHtml(capitalize(data.category || '')) + '</div>';
+  html += '<div class="article-category">' + escapeHtml(formatCategoryName(data.category || '')) + '</div>';
   html += '<h1>' + escapeHtml(data.title) + '</h1>';
   html += '<div class="article-date">' + formatDate(data.created_at) + '</div>';
   if (hasVideo(data)) {

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="African business news — markets, trade, finance, investment, and economic analysis.">
-  <title>Business — News Africa</title>
+  <meta name="description" content="African crime news — reports on crime, justice, law enforcement, and security across the continent.">
+  <title>Crime — News Africa</title>
   <link rel="icon" type="image/jpeg" href="logo.jpg">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="styles.css">
@@ -37,12 +37,12 @@
       <a href="index.html">Home</a>
       <a href="news.html">News</a>
       <a href="politics.html">Politics</a>
-      <a href="business.html" class="active">Business</a>
+      <a href="business.html">Business</a>
       <a href="sports.html">Sports</a>
       <a href="entertainment.html">Entertainment</a>
       <a href="health.html">Health</a>
       <a href="culture-society.html">Culture &amp; Society</a>
-      <a href="crime.html">Crime</a>
+      <a href="crime.html" class="active">Crime</a>
       <a href="inside-africa.html">Inside Africa</a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
         <i class="fa-solid fa-bars"></i>
@@ -57,7 +57,7 @@
 
   <main class="container">
     <div class="category-page">
-      <h1 class="category-page-title">Business</h1>
+      <h1 class="category-page-title">Crime</h1>
       <div class="listing-grid" id="categoryListing">
         <div class="loading-indicator">Loading articles…</div>
       </div>
@@ -112,7 +112,7 @@
   <script src="app.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      loadCategoryPage('business');
+      loadCategoryPage('crime');
     });
   </script>
 

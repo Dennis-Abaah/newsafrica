@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS public.articles (
   title       TEXT NOT NULL,
   excerpt     TEXT,
   content     TEXT NOT NULL,
-  category    TEXT NOT NULL CHECK (category IN ('news', 'business', 'sports', 'entertainment', 'health', 'politics', 'culture', 'society')),
+  category    TEXT NOT NULL CHECK (category IN ('news', 'business', 'sports', 'entertainment', 'health', 'politics', 'culture-society', 'crime', 'inside-africa')),
   image_url   TEXT,
   video_url   TEXT,
   is_breaking BOOLEAN DEFAULT FALSE,
@@ -72,8 +72,11 @@ CREATE POLICY "Authenticated users can delete"
 --    (Run this if the table already exists)
 -- ===========================================
 
--- Drop the old CHECK constraint and add the updated one
+-- Drop the old CHECK constraint, migrate data, and add the updated one
 ALTER TABLE public.articles DROP CONSTRAINT IF EXISTS articles_category_check;
+
+UPDATE public.articles SET category = 'culture-society' WHERE category IN ('culture', 'society');
+
 ALTER TABLE public.articles ADD CONSTRAINT articles_category_check
-  CHECK (category IN ('news', 'business', 'sports', 'entertainment', 'health', 'politics', 'culture', 'society'));
+  CHECK (category IN ('news', 'business', 'sports', 'entertainment', 'health', 'politics', 'culture-society', 'crime', 'inside-africa'));
 

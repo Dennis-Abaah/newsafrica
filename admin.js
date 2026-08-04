@@ -265,6 +265,15 @@ function capitalize(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+function formatCategoryName(category) {
+  if (!category) return '';
+  if (category === 'culture-society') return 'Culture & Society';
+  if (category === 'inside-africa') return 'Inside Africa';
+  return category.split(/[-_ ]+/).map(function(word) {
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(' ');
+}
+
 // ============================================================
 // DASHBOARD OVERVIEW
 // ============================================================
@@ -291,17 +300,17 @@ async function loadDashboardData() {
     document.getElementById('statToday').textContent = articles.filter(function(a) { return a.created_at && a.created_at.startsWith(today); }).length;
 
     // Category breakdown
-    var cats = { news: 0, politics: 0, business: 0, sports: 0, entertainment: 0, health: 0, culture: 0, society: 0 };
+    var cats = { news: 0, politics: 0, business: 0, sports: 0, entertainment: 0, health: 0, 'culture-society': 0, crime: 0, 'inside-africa': 0 };
     articles.forEach(function(a) { if (cats.hasOwnProperty(a.category)) cats[a.category]++; });
 
     var maxCat = Math.max(1, Math.max.apply(null, Object.values(cats)));
-    var catColors = { news: '#e74c3c', politics: '#16a085', business: '#3498db', sports: '#2ecc71', entertainment: '#f39c12', health: '#9b59b6', culture: '#e84393', society: '#2d3436' };
+    var catColors = { news: '#e74c3c', politics: '#16a085', business: '#3498db', sports: '#2ecc71', entertainment: '#f39c12', health: '#9b59b6', 'culture-society': '#e84393', crime: '#c0392b', 'inside-africa': '#27ae60' };
     var barsHtml = '';
 
     Object.keys(cats).forEach(function(cat) {
       var pct = Math.round((cats[cat] / maxCat) * 100);
       barsHtml += '<div class="cat-bar-row">';
-      barsHtml += '<span class="cat-label">' + capitalize(cat) + '</span>';
+      barsHtml += '<span class="cat-label">' + formatCategoryName(cat) + '</span>';
       barsHtml += '<div class="cat-bar-track"><div class="cat-bar-fill" style="width:' + pct + '%;background:' + catColors[cat] + '"></div></div>';
       barsHtml += '<span class="cat-count">' + cats[cat] + '</span>';
       barsHtml += '</div>';
@@ -319,7 +328,7 @@ async function loadDashboardData() {
         recentHtml += '<div class="recent-dot" style="background:' + (catColors[a.category] || '#999') + '"></div>';
         recentHtml += '<div class="recent-info">';
         recentHtml += '<span class="recent-title">' + escapeHtml(a.title) + '</span>';
-        recentHtml += '<span class="recent-meta">' + capitalize(a.category || '') + ' · ' + timeAgo(a.created_at) + '</span>';
+        recentHtml += '<span class="recent-meta">' + formatCategoryName(a.category || '') + ' · ' + timeAgo(a.created_at) + '</span>';
         recentHtml += '</div>';
         if (a.is_breaking) recentHtml += '<span class="badge-breaking">BREAKING</span>';
         recentHtml += '</div>';
@@ -377,7 +386,7 @@ function renderFilteredArticles() {
   $tableEmpty.style.display = 'none';
   document.getElementById('articlesTable').style.display = '';
 
-  var catColors = { news: '#e74c3c', politics: '#16a085', business: '#3498db', sports: '#2ecc71', entertainment: '#f39c12', health: '#9b59b6', culture: '#e84393', society: '#2d3436' };
+  var catColors = { news: '#e74c3c', politics: '#16a085', business: '#3498db', sports: '#2ecc71', entertainment: '#f39c12', health: '#9b59b6', 'culture-society': '#e84393', crime: '#c0392b', 'inside-africa': '#27ae60' };
 
   var html = '';
   filtered.forEach(function(a) {
@@ -391,7 +400,7 @@ function renderFilteredArticles() {
     html += '<span class="article-title-text">' + escapeHtml(a.title) + '</span>';
     if (a.video_url) html += ' <span class="badge-video">VIDEO</span>';
     html += '</td>';
-    html += '<td class="td-category"><span class="badge-category" style="background:' + (catColors[a.category] || '#999') + '">' + escapeHtml(capitalize(a.category || '')) + '</span></td>';
+    html += '<td class="td-category"><span class="badge-category" style="background:' + (catColors[a.category] || '#999') + '">' + escapeHtml(formatCategoryName(a.category || '')) + '</span></td>';
     html += '<td class="td-date">' + formatShortDate(a.created_at) + '</td>';
     html += '<td class="td-status">';
     if (a.is_breaking) html += '<span class="badge-breaking">BREAKING</span>';
