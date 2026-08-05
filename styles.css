@@ -971,7 +971,8 @@ button, input, select, textarea {
   }
 
   .nav-bar-inner.open {
-    max-height: 400px;
+    max-height: 550px;
+    overflow-y: auto;
   }
 
   .nav-bar a {
