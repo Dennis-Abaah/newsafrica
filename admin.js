@@ -9,7 +9,7 @@ let deleteTargetId = null;   // article ID pending deletion
 
 // --- DOM REFS (safe — called after DOM ready) ---
 let $loginScreen, $dashboardScreen, $loginForm, $loginEmail, $loginPassword, $loginStatus;
-let $topbarEmail, $topbarAvatar, $logoutBtn, $sidebarToggle, $sidebar;
+let $topbarEmail, $topbarAvatar, $logoutBtn, $sidebarToggle, $sidebar, $sidebarOverlay, $sidebarClose;
 let $uploadForm, $uploadStatus, $submitBtn, $submitBtnText, $cancelEditBtn, $editArticleId;
 let $createSectionTitle, $createSectionDesc;
 let $searchInput, $filterCategory, $articlesTableBody, $tableEmpty;
@@ -29,6 +29,8 @@ function cacheDom() {
   $logoutBtn = document.getElementById('logoutBtn');
   $sidebarToggle = document.getElementById('sidebarToggle');
   $sidebar = document.getElementById('adminSidebar');
+  $sidebarOverlay = document.getElementById('sidebarOverlay');
+  $sidebarClose = document.getElementById('sidebarClose');
 
   $uploadForm = document.getElementById('uploadForm');
   $uploadStatus = document.getElementById('uploadStatus');
@@ -110,9 +112,32 @@ function bindEvents() {
   // Logout
   $logoutBtn.addEventListener('click', handleLogout);
 
+  // Helper to close sidebar
+  function closeSidebar() {
+    if ($sidebar) $sidebar.classList.remove('open');
+    if ($sidebarOverlay) $sidebarOverlay.classList.remove('open');
+  }
+
   // Sidebar toggle (mobile)
-  $sidebarToggle.addEventListener('click', function() {
-    $sidebar.classList.toggle('open');
+  if ($sidebarToggle) {
+    $sidebarToggle.addEventListener('click', function() {
+      var isOpen = $sidebar.classList.toggle('open');
+      if ($sidebarOverlay) {
+        $sidebarOverlay.classList.toggle('open', isOpen);
+      }
+    });
+  }
+
+  if ($sidebarClose) {
+    $sidebarClose.addEventListener('click', closeSidebar);
+  }
+
+  if ($sidebarOverlay) {
+    $sidebarOverlay.addEventListener('click', closeSidebar);
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeSidebar();
   });
 
   // Sidebar navigation
@@ -120,8 +145,7 @@ function bindEvents() {
     link.addEventListener('click', function(e) {
       e.preventDefault();
       switchSection(this.getAttribute('data-section'));
-      // close mobile sidebar
-      $sidebar.classList.remove('open');
+      closeSidebar();
     });
   });
 
